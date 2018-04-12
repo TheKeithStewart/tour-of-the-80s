@@ -1,0 +1,15 @@
+<div id="search-component">
+  <h4>Dancer Search</h4>
+
+  <mat-form-field>
+    <input matInput #searchBox (keyup)="search(searchBox.value)" placeholder="search for dancers" />
+  </mat-form-field>
+
+  <ul class="search-result">
+    <mat-card *ngFor="let dancer of dancers$ | async">
+      <a routerLink="/detail/{{dancer.id}}">
+        {{dancer.name}}
+      </a>
+    </mat-card>
+  </ul>
+</div>

@@ -1,0 +1,52 @@
+<div>
+  <mat-form-field>
+    <mat-select (change)="setChallengee($event.value)" placeholder="Choose a Challengee">
+      <mat-option *ngFor="let dancer of potentialChallengees$ | async" [value]="dancer.id">
+        {{ dancer.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="challenger$ | async">
+  <div class="battle">
+    <div class="dancer">
+      <div>
+        <h1> {{ challenger.name }} </h1>
+      </div>
+      <div>
+        <img *ngIf="!(battleInProgress$ | async)" class="profile-image" [src]="challenger.images.profileUrl" />
+        <img *ngIf="battleInProgress$ | async" class="dance-image" [src]="challenger.images.danceUrl" />
+      </div>
+    </div>
+
+    <!-- Only display the VS. section if a challengee has been selected -->
+    <ng-container *ngIf="challengee$ | async">
+      <div class="center">
+        <h1>Vs.</h1>
+
+        <div class="status" *ngIf="battleInProgress$ | async">
+          Battle in progress!!!
+        </div>
+      </div>
+
+      <div class="dancer right-align">
+        <div>
+          <h1> {{ challengee.name }} </h1>
+        </div>
+        <div>
+          <img *ngIf="!(battleInProgress$ | async)" class="profile-image" [src]="challengee.images.profileUrl" />
+          <img *ngIf="battleInProgress$ | async" class="dance-image" [src]="challengee.images.danceUrl" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div>
+    <button mat-raised-button [disabled]="!(challengersAreChosen$ | async) || (battleInProgress$ | async)" (click)="battle()"> Battle! </button>
+  </div>
+
+  <div *ngIf="(battleOutcome$ | async) !== null">
+    {{ outcomeMessage }}
+  </div>
+</div>

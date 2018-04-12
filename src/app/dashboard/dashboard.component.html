@@ -1,0 +1,10 @@
+<h3>Top Dancers</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let dancer of dancers | async" class="col-1-4" routerLink="/detail/{{dancer.id}}">
+    <div class="module dancer">
+      <h4>{{dancer.name}}</h4>
+    </div>
+  </a>
+</div>
+
+<app-dancer-search></app-dancer-search>

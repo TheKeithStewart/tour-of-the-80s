@@ -1,0 +1,41 @@
+
+mat-form-field {
+  margin-top: 10px;
+}
+
+h1 {
+  color: purple;
+}
+
+.profile-image {
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+}
+
+.name {
+  color: purple;
+  font-size: 50px;
+  margin: 10px;
+  margin-bottom: 40px;
+}
+
+.battle {
+  display: flex;
+}
+
+.dancer {
+  flex: 1;
+}
+
+.center {
+  flex: 1;
+}
+
+.center h1, .status {
+  text-align: center;
+}
+
+.right-align {
+  text-align: right;
+}

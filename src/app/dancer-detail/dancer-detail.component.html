@@ -1,0 +1,44 @@
+<div *ngIf="dancer">
+  <h2>{{ dancer.name }} Details</h2>
+  <div>
+    <mat-form-field>
+      <input matInput [(ngModel)]="dancer.id" placeholder="ID" disabled />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput [(ngModel)]="dancer.name" placeholder="Name" />
+    </mat-form-field>
+  </div>
+
+  <h2>RATINGS:</h2>
+
+  <div>
+    <mat-form-field>
+      <input matInput type="number" [(ngModel)]="ratings.moonwalk" placeholder="Moonwalk Rating" />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput type="number" [(ngModel)]="ratings.sprinkler" placeholder="Sprinkler Rating" />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput type="number" [(ngModel)]="ratings.worm" placeholder="Worm Rating" />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput type="number" [(ngModel)]="ratings.disco" placeholder="Disco Rating" />
+    </mat-form-field>
+  </div>
+
+
+  <button mat-raised-button (click)="goBack()">Go Back</button>
+  <button mat-raised-button (click)="save()">Save</button>
+</div>

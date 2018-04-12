@@ -1,0 +1,51 @@
+<h2>My Dancers</h2>
+
+<div>
+  <mat-form-field>
+    <input matInput placeholder="Dancer Name" #dancerName />
+  </mat-form-field>
+
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button mat-raised-button (click)="add(dancerName.value); dancerName.value=''">
+    add
+  </button>
+</div>
+
+<div>
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let dancer"> {{ dancer.id }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let dancer"> <img [src]="dancer.images.profileUrl" /> </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let dancer"> {{ dancer.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let dancer">
+        <button mat-icon-button routerLink="/detail/{{dancer.id}}">
+          <mat-icon>settings</mat-icon>
+        </button>
+
+        <button mat-icon-button routerLink="/challenge/{{dancer.id}}">
+          <mat-icon>flash_on</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="delete(dancer)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let dancer; columns: columns"></mat-row>
+  </mat-table>
+</div>
