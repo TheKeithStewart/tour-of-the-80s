@@ -250,5 +250,25 @@ describe('AppEffects', () => {
       // the determineBattleWinnerByCategory() should have been called with the challengers as arguments
       expect(dancerService.determineBattleWinnerByCategory).toHaveBeenCalledWith(challenger, challengee);
     });
+
+    it('should return a BattleFail if there is an error when processing the battle', () => {
+      // the error message that will be thrown
+      const error = 'When you error I will catch you (I will be waiting time after time)';
+      const challenger = new Dancer();
+      const challengee = new Dancer();
+      const action = new Battle({
+        challenger: challenger,
+        challengee: challengee
+      });
+      const completion = new BattleFail(error);
+  
+      actions$.stream = hot('-a', { a: action });
+      // instead of returning a value an error is thrown
+      const battle = cold('-#', { }, error);
+      const expected = cold('--c', { c: completion });
+      dancerService.determineBattleWinnerByCategory.and.returnValue(battle);
+  
+      expect(effects.battle$).toBeObservable(expected);
+    });
   });
 });

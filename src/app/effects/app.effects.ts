@@ -95,7 +95,9 @@ export class AppEffects {
     // determine the result of the battle
     switchMap(action => this.dancerService.determineBattleWinnerByCategory(action.payload.challenger, action.payload.challengee).pipe(
       // map the outcome to return a BattleOutcomeDetermined action
-      map((outcome: BattleOutcome) => new BattleOutcomeDetermined(outcome))
+      map((outcome: BattleOutcome) => new BattleOutcomeDetermined(outcome)),
+      // catch errors and return BattleFail action
+	    catchError(err => of(new BattleFail(err)))
     ))
   );
 
