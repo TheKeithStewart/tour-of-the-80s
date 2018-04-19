@@ -222,4 +222,33 @@ describe('AppEffects', () => {
   });
 
   // the describe function for the battle effect goes here
+  describe('battle$', () => {
+    it('should return a BattleOutcomeDetermined action on completion', () => {
+      // BattleOutcome is an enum representing the different possible outcomes
+      const battleOutcome = BattleOutcome.ChallengerWins;
+      // create the dancers that will be challenging each other in the battle
+      const challenger = new Dancer();
+      const challengee = new Dancer();
+      const action = new Battle({
+        challenger: challenger,
+        challengee: challengee
+      });
+      const completion = new BattleOutcomeDetermined(battleOutcome);
+  
+      // the Battle action is dispatched
+      actions$.stream = hot('-a', { a: action });
+      // the battle outcome is determined
+      const battle = cold('-b', { b: battleOutcome });
+      // upon success completion the BattleOutcomeDetermined action is returned
+      const expected = cold('--c', { c: completion });
+      // the determineBattleWinnerByCategory() function is used to determine the outcome
+      // a spy has been created for this function so we can have it return the battle outcome here
+      dancerService.determineBattleWinnerByCategory.and.returnValue(battle);
+  
+      // the end result of the battle$ effect
+      expect(effects.battle$).toBeObservable(expected);
+      // the determineBattleWinnerByCategory() should have been called with the challengers as arguments
+      expect(dancerService.determineBattleWinnerByCategory).toHaveBeenCalledWith(challenger, challengee);
+    });
+  });
 });
