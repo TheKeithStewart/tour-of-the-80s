@@ -94,6 +94,9 @@ export class AppEffects {
     ofType<Battle>(ChallengeActionTypes.Battle),
     // determine the result of the battle
     switchMap(action => this.dancerService.determineBattleWinnerByCategory(action.payload.challenger, action.payload.challengee).pipe(
+      // if a delay is provided by the action then apply it
+      // also allow the scheduler to be overriden by in unit tests
+      delay(action.payload.delay || 0, this.scheduler || async),
       // map the outcome to return a BattleOutcomeDetermined action
       map((outcome: BattleOutcome) => new BattleOutcomeDetermined(outcome)),
       // catch errors and return BattleFail action

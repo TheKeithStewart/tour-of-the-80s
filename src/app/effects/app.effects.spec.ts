@@ -270,5 +270,25 @@ describe('AppEffects', () => {
   
       expect(effects.battle$).toBeObservable(expected);
     });
+
+    it('should return a BattleOutcomeDetermined action on completion with a 50 frame delay', () => {
+      const battleOutcome = BattleOutcome.ChallengerWins;
+      const challenger = new Dancer();
+      const challengee = new Dancer();
+      // this time the payload for the Battle action includes a delay value
+      const action = new Battle({
+        challenger: challenger,
+        challengee: challengee,
+        delay: 50
+      });
+      const completion = new BattleOutcomeDetermined(battleOutcome);
+
+      actions$.stream = hot('-a', { a: action });
+      const battle = cold('-b', { b: battleOutcome });
+      const expected = cold('-------c', { c: completion });
+      dancerService.determineBattleWinnerByCategory.and.returnValue(battle);
+
+      expect(effects.battle$).toBeObservable(expected);
+    });
   });
 });
